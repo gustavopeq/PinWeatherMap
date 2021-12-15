@@ -6,7 +6,7 @@
     app:startDestination="@id/mapsFragment">
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="gustavo.projects.pinweathermap.MapsFragment"
+        android:name="gustavo.projects.pinweathermap.map.ui.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" />
 </navigation>

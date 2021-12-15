@@ -1,20 +1,25 @@
-package gustavo.projects.pinweathermap
+package gustavo.projects.pinweathermap.map.ui
 
 import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import gustavo.projects.pinweathermap.R
+import gustavo.projects.pinweathermap.map.viewmodel.MapViewModel
 
 class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener{
 
-    lateinit var googleMap: GoogleMap
+    private lateinit var googleMap: GoogleMap
+
+    private val viewModel: MapViewModel by viewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -48,5 +53,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
 
     override fun onMapClick(p0: LatLng) {
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(p0))
+
+        viewModel.getWeatherByCoord(p0.latitude, p0.longitude)
     }
 }
