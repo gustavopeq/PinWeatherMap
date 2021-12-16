@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface WeatherService {
 
-    @GET("weather?&appid=${Constants.OPEN_WEATHERMAP_API_KEY}")
+    @GET("weather?&appid=${Constants.OPEN_WEATHERMAP_API_KEY}&units=metric")
     suspend fun getWeatherByCoord(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double
