@@ -2,12 +2,12 @@ package gustavo.projects.pinweathermap.domain.repository
 
 import android.util.Log
 import gustavo.projects.pinweathermap.domain.mapper.LocationWeatherMapper
+import gustavo.projects.pinweathermap.domain.model.LocationWeather
 import gustavo.projects.pinweathermap.network.NetworkLayer
-import java.util.*
 
 class MapRepository {
 
-    suspend fun getWeatherByCoord(lat: Double, lon: Double): Unit? {
+    suspend fun getWeatherByCoord(lat: Double, lon: Double): LocationWeather? {
 
         val request = NetworkLayer.apiClient.getWeatherByCoord(lat,lon)
 
@@ -15,11 +15,11 @@ class MapRepository {
             return null
         }
 
-        val response = LocationWeatherMapper().buildFrom(request.body)
+        val locationWeather = LocationWeatherMapper().buildFrom(request.body)
 
 
-        Log.d("print", response.temp.toString())
+        Log.d("print", locationWeather.name)
 
-        return null
+        return locationWeather
     }
 }
