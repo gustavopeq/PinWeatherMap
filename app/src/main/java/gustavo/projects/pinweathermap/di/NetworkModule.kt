@@ -1,10 +1,11 @@
-package gustavo.projects.pinweathermap
+package gustavo.projects.pinweathermap.di
 
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import gustavo.projects.pinweathermap.Constants
 import gustavo.projects.pinweathermap.network.ApiClient
 import gustavo.projects.pinweathermap.network.WeatherService
 import retrofit2.Retrofit

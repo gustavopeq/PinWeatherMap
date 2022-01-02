@@ -1,4 +1,4 @@
-package gustavo.projects.pinweathermap
+package gustavo.projects.pinweathermap.di
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
