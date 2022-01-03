@@ -1,23 +1,21 @@
 package gustavo.projects.pinweathermap.map.ui
 
-import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.viewbinding.ViewBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
+import gustavo.projects.pinweathermap.Constants
 import gustavo.projects.pinweathermap.R
 import gustavo.projects.pinweathermap.databinding.BottomSheetDetailsBinding
 import gustavo.projects.pinweathermap.databinding.FragmentMapsBinding
@@ -115,8 +113,51 @@ class MapsFragment : Fragment(),
     }
 
     private fun onBottomSheetExpand(locationWeather: LocationWeather) {
-            bottomSheetBinding.cityName.text = locationWeather.name
-            bottomSheetBinding.temperature.text = locationWeather.temp.toString()
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        bottomSheetBinding.cityName.text = locationWeather.name
+        bottomSheetBinding.temperature.text = locationWeather.temp.toString()
+
+        var isDay = true
+
+        if(locationWeather.unixTime > locationWeather.sunRiseTime) {
+            isDay = locationWeather.unixTime < locationWeather.sunSetTime
+        }else{
+            isDay = locationWeather.unixTime > locationWeather.sunRiseTime
         }
+
+        if(isDay){
+            if (locationWeather.description.contains("snow")) {
+                bottomSheetBinding.weatherAnim.setAnimation(R.raw.day_snowy_anim)
+            } else if (locationWeather.description.contains("rain")) {
+                bottomSheetBinding.weatherAnim.setAnimation(R.raw.day_rainy_anim)
+            } else if (locationWeather.description.contains("scattered clouds")
+                || locationWeather.description.contains("broken clouds")
+                || locationWeather.description.contains("few clouds")) {
+                bottomSheetBinding.weatherAnim.setAnimation(R.raw.day_cloudy_anim)
+            }else if (locationWeather.description.contains("clouds")) {
+                bottomSheetBinding.weatherAnim.setAnimation(R.raw.cloudy_anim)
+            }else{
+                bottomSheetBinding.weatherAnim.setAnimation(R.raw.day_clear_anim)
+            }
+        }else{
+            if (locationWeather.description.contains("snow")) {
+                bottomSheetBinding.weatherAnim.setAnimation(R.raw.night_snowy_anim)
+            }else if (locationWeather.description.contains("heavy rain")) {
+                bottomSheetBinding.weatherAnim.setAnimation(R.raw.storm_anim)
+            } else if (locationWeather.description.contains("rain")) {
+                bottomSheetBinding.weatherAnim.setAnimation(R.raw.night_rainy_anim)
+            } else if (locationWeather.description.contains("scattered clouds")
+                || locationWeather.description.contains("broken clouds")
+                || locationWeather.description.contains("few clouds")) {
+                bottomSheetBinding.weatherAnim.setAnimation(R.raw.night_cloudy_anim)
+            }else if (locationWeather.description.contains("clouds")) {
+                bottomSheetBinding.weatherAnim.setAnimation(R.raw.cloudy_anim)
+            }else{
+                bottomSheetBinding.weatherAnim.setAnimation(R.raw.night_clear_anim)
+            }
+        }
+
+        bottomSheetBinding.weatherAnim.playAnimation()
+
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
 }

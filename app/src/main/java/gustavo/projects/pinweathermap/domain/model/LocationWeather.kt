@@ -10,8 +10,11 @@ data class LocationWeather(
     val tempMax: Double, //°C
     val humidity: Double, //%
     val pressure: Double, //hPa
-    val unixTime: Int, // Unix time
+    val unixTime: Long, // Unix time
+    val sunRiseTime: Long, // Unix Time
+    val sunSetTime: Long, //Unix Time
     val windSpeed: Double, // Meter/Second
+    val main: String,
     val description: String,
     val clouds: Double //%,
 )

@@ -18,7 +18,10 @@ class LocationWeatherMapper {
                 response.main.humidity,
                 response.main.pressure,
                 response.dt,
+                response.sys.sunrise,
+                response.sys.sunset,
                 response.wind.speed,
+                response.weather[0].main,
                 response.weather[0].description,
                 response.clouds.all
                 )
