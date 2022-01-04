@@ -21,6 +21,7 @@ import gustavo.projects.pinweathermap.databinding.BottomSheetDetailsBinding
 import gustavo.projects.pinweathermap.databinding.FragmentMapsBinding
 import gustavo.projects.pinweathermap.domain.model.LocationWeather
 import gustavo.projects.pinweathermap.map.viewmodel.MapViewModel
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class MapsFragment : Fragment(),
@@ -88,10 +89,11 @@ class MapsFragment : Fragment(),
         if(!locationWeather.name.isNullOrBlank()) {
             val markerOptions = MarkerOptions()
                 .position(LatLng(locationWeather.latitude, locationWeather.longitude))
-                .title("${locationWeather.name} ${locationWeather.temp} °C")
+                .title("${locationWeather.name}")
 
             googleMap.addMarker(markerOptions)!!.apply {
                 tag = locationWeather
+                snippet = "${locationWeather.temp}°C"
                 showInfoWindow()
             }
         }
@@ -114,9 +116,24 @@ class MapsFragment : Fragment(),
 
     private fun onBottomSheetExpand(locationWeather: LocationWeather) {
         bottomSheetBinding.cityName.text = locationWeather.name
-        bottomSheetBinding.temperature.text = locationWeather.temp.toString()
 
-        var isDay = true
+        bottomSheetBinding.temperature.text = "${locationWeather.temp}°C"
+        bottomSheetBinding.feelsLikeTextView.text = "${locationWeather.feelsLike}°C"
+
+        setWeatherLottieAnim(locationWeather)
+
+        bottomSheetBinding.maxMinTextView.text = "${locationWeather.tempMax}°C / ${locationWeather.tempMin}°C"
+
+        bottomSheetBinding.cloudsTextView.text = "${locationWeather.clouds}%"
+        bottomSheetBinding.humidityTextView.text = "${locationWeather.humidity}%"
+        bottomSheetBinding.pressureTextView.text = "${locationWeather.pressure} hPa"
+        bottomSheetBinding.windTextView.text = "${locationWeather.windSpeed} m/s"
+
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
+    private fun setWeatherLottieAnim(locationWeather: LocationWeather) {
+        var isDay: Boolean
 
         if(locationWeather.unixTime > locationWeather.sunRiseTime) {
             isDay = locationWeather.unixTime < locationWeather.sunSetTime
@@ -157,7 +174,5 @@ class MapsFragment : Fragment(),
         }
 
         bottomSheetBinding.weatherAnim.playAnimation()
-
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 }

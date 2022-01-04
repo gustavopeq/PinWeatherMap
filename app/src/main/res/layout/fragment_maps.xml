@@ -25,7 +25,7 @@
 
     <include
         android:id="@+id/bottomSheet"
-        layout="@layout/bottom_sheet_details"/>
+        layout="@layout/bottom_sheet_details" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

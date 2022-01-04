@@ -2,6 +2,7 @@ package gustavo.projects.pinweathermap.domain.mapper
 
 import gustavo.projects.pinweathermap.domain.model.LocationWeather
 import gustavo.projects.pinweathermap.network.response.GetWeatherByCoordResponse
+import kotlin.math.roundToInt
 
 class LocationWeatherMapper {
 
@@ -11,10 +12,10 @@ class LocationWeatherMapper {
                 response.name,
                 response.coord.lat,
                 response.coord.lon,
-                response.main.temp,
-                response.main.feels_like,
-                response.main.temp_min,
-                response.main.temp_max,
+                response.main.temp.roundToInt(),
+                response.main.feels_like.roundToInt(),
+                response.main.temp_min.roundToInt(),
+                response.main.temp_max.roundToInt(),
                 response.main.humidity,
                 response.main.pressure,
                 response.dt,

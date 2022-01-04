@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bottomSheetDetails"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="480dp"
     app:cardCornerRadius="16dp"
     app:cardBackgroundColor="@color/cardview_light_background"
     android:layout_marginHorizontal="16dp"
     android:layout_marginTop="16dp"
     app:behavior_hideable="true"
-    app:behavior_peekHeight="160dp"
+    app:behavior_peekHeight="0dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -33,7 +34,7 @@
             android:id="@+id/temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12"
+            android:text="12°C"
             android:textSize="24sp"
             android:textColor="?attr/colorOnBackground"
             android:layout_marginTop="8dp"
@@ -41,14 +42,22 @@
             app:layout_constraintStart_toStartOf="@id/cityName"/>
 
         <TextView
-            android:id="@+id/temperatureCelsius"
+            android:id="@+id/feelsLikeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="°C"
-            android:textSize="24sp"
-            android:textColor="?attr/colorOnBackground"
-            app:layout_constraintBottom_toBottomOf="@+id/temperature"
-            app:layout_constraintStart_toEndOf="@id/temperature" />
+            android:text="Feels Like "
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/temperature"
+            app:layout_constraintStart_toStartOf="@id/temperature"/>
+
+        <TextView
+            android:id="@+id/feelsLikeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10°C"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/feelsLikeTitle"
+            app:layout_constraintBottom_toBottomOf="@id/feelsLikeTitle"/>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/weatherAnim"
@@ -60,6 +69,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/tempCardView"
             android:layout_width="match_parent"
@@ -67,7 +78,7 @@
             android:layout_margin="16dp"
             app:cardElevation="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/weatherAnim">
+            app:layout_constraintTop_toBottomOf="@id/feelsLikeTitle">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -96,7 +107,7 @@
                     android:id="@+id/maxMinTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="-5°C / 3°C"
+                    android:text="5°C / -3°C"
                     android:textColor="?attr/colorOnBackground"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
@@ -278,7 +289,7 @@
                     android:id="@+id/textView5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Pressure"
+                    android:text="Wind Speed"
                     android:textSize="@dimen/DefaultTitleSize"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/appCompatImageView5"
@@ -298,6 +309,8 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </com.google.android.material.card.MaterialCardView>
