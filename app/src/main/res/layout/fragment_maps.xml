@@ -23,6 +23,17 @@
         />
 
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bookmarkExplorerBtn"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:text="Show Bookmarks"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        android:layout_margin="8dp"
+        app:layout_anchor="@id/bottomSheet"
+        app:layout_anchorGravity="end|bottom" />
+
     <include
         android:id="@+id/bottomSheet"
         layout="@layout/bottom_sheet_details" />

@@ -6,6 +6,7 @@ import gustavo.projects.pinweathermap.database.BookmarkEntity
 import gustavo.projects.pinweathermap.domain.mapper.LocationWeatherMapper
 import gustavo.projects.pinweathermap.domain.model.LocationWeather
 import gustavo.projects.pinweathermap.network.ApiClient
+import hilt_aggregated_deps._dagger_hilt_android_internal_managers_HiltWrapper_ActivityRetainedComponentManager_ActivityRetainedLifecycleEntryPoint
 
 class MapRepository(
     private val apiClient: ApiClient,
@@ -40,5 +41,9 @@ class MapRepository(
         )
 
         bookmarkDao.removeLocation(bookmarkToRemove)
+    }
+
+    suspend fun getAllBookmarksFromDatabase(): List<BookmarkEntity> {
+        return bookmarkDao.getAllBookmarkEntities()
     }
 }

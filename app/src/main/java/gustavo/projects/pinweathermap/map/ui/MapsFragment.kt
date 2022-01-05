@@ -1,11 +1,10 @@
 package gustavo.projects.pinweathermap.map.ui
 
-import android.opengl.Visibility
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -67,10 +66,47 @@ class MapsFragment : Fragment(),
             }
         }
 
+        viewModel.bookmarksList.observe(viewLifecycleOwner) { locationWeatherList ->
+            if(!locationWeatherList.isNullOrEmpty()) {
+                locationWeatherList.forEach { locationWeather ->
+                    addMarker(locationWeather)
+                }
+            }
+        }
 
         bottomSheetBinding = mapBinding.bottomSheet
         bottomSheet = bottomSheetBinding.root
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+
+        bottomSheetBehavior.addBottomSheetCallback(object:
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_EXPANDED ->
+                        mapBinding.bookmarkExplorerBtn.visibility = View.GONE
+
+                    BottomSheetBehavior.STATE_COLLAPSED ->
+                        mapBinding.bookmarkExplorerBtn.visibility = View.VISIBLE
+
+                    BottomSheetBehavior.STATE_HIDDEN ->
+                        mapBinding.bookmarkExplorerBtn.visibility = View.VISIBLE
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                // Nothing to do
+            }
+
+        })
+
+        mapBinding.bookmarkExplorerBtn.setOnClickListener {
+            if(isExploring) {
+                Log.d("print", "OPA")
+                onShowBookmarks()
+            }else {
+                onExploreMode()
+            }
+        }
     }
 
     override fun onMapReady(p0: GoogleMap) {
@@ -82,6 +118,7 @@ class MapsFragment : Fragment(),
         googleMap.setOnInfoWindowClickListener {
             if(it.tag is LocationWeather) {
                 onBottomSheetExpand(it.tag as LocationWeather)
+                mapBinding.bookmarkExplorerBtn.visibility = View.GONE
             }
         }
     }
@@ -105,14 +142,20 @@ class MapsFragment : Fragment(),
     }
 
     override fun onCameraIdle() {
-        googleMap.clear()
-        viewModel.getWeatherByCoord(googleMap.cameraPosition.target.latitude,
-                googleMap.cameraPosition.target.longitude)
+        if(isExploring) {
+            googleMap.clear()
+            viewModel.getWeatherByCoord(
+                googleMap.cameraPosition.target.latitude,
+                googleMap.cameraPosition.target.longitude
+            )
+        }
     }
 
     override fun onCameraMoveStarted(p0: Int) {
-        googleMap.clear()
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        if(isExploring) {
+            googleMap.clear()
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
     }
 
     private fun onBottomSheetExpand(locationWeather: LocationWeather) {
@@ -146,6 +189,9 @@ class MapsFragment : Fragment(),
             viewModel.removeBookmark(locationWeather)
             bottomSheetBinding.addBookmarkBtn.visibility = View.VISIBLE
             bottomSheetBinding.removeBookmarkBtn.visibility = View.GONE
+            if(!isExploring) {
+                onShowBookmarks()
+            }
         }
 
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -193,5 +239,21 @@ class MapsFragment : Fragment(),
         }
 
         bottomSheetBinding.weatherAnim.playAnimation()
+    }
+
+    private fun onExploreMode() {
+        googleMap.clear()
+        mapBinding.mapTargetImageView.visibility = View.VISIBLE
+        mapBinding.bookmarkExplorerBtn.text = "Show Bookmarks"
+        isExploring = true
+    }
+
+    private fun onShowBookmarks() {
+        googleMap.clear()
+        mapBinding.mapTargetImageView.visibility = View.GONE
+        mapBinding.bookmarkExplorerBtn.text = "Explore Mode"
+        isExploring = false
+
+        viewModel.loadAllBookmarks()
     }
 }

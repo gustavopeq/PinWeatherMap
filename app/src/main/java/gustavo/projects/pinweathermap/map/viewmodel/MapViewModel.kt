@@ -19,6 +19,10 @@ class MapViewModel @Inject constructor(
     val locationWeatherInfo: LiveData<LocationWeather>
         get() = _locationWeatherInfo
 
+    private var _bookmarksList = MutableLiveData<List<LocationWeather>>()
+    val bookmarksList: LiveData<List<LocationWeather>>
+        get() = _bookmarksList
+
     fun getWeatherByCoord(lat: Double, lon: Double) {
         viewModelScope.launch {
             _locationWeatherInfo.postValue(mapRepository.getWeatherByCoord(lat, lon))
@@ -34,6 +38,28 @@ class MapViewModel @Inject constructor(
     fun removeBookmark(locationWeather: LocationWeather) {
         viewModelScope.launch {
             mapRepository.removeBookmarkFromDatabase(locationWeather)
+        }
+    }
+
+    fun loadAllBookmarks() {
+        viewModelScope.launch {
+            val bookmarkEntityList = mapRepository.getAllBookmarksFromDatabase()
+
+            if(!bookmarkEntityList.isNullOrEmpty()) {
+
+                val locationWeatherList = mutableListOf<LocationWeather>()
+                bookmarkEntityList.forEach { bookmarkEntity ->
+                    var weatherLocation = mapRepository.getWeatherByCoord(
+                        bookmarkEntity.latitude,
+                        bookmarkEntity.longitude)
+
+                    if(weatherLocation != null) {
+                        locationWeatherList.add(weatherLocation)
+                    }
+                }
+
+                _bookmarksList.postValue(locationWeatherList)
+            }
         }
     }
 }

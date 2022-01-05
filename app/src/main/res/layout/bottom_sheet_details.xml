@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottomSheetDetails"
     android:layout_width="match_parent"
-    android:layout_height="520dp"
+    android:layout_height="550dp"
     app:cardCornerRadius="16dp"
     app:cardBackgroundColor="@color/cardview_light_background"
     android:layout_marginHorizontal="16dp"
@@ -20,13 +20,13 @@
 
         <TextView
             android:id="@+id/cityName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="226dp"
+            android:layout_height="75dp"
             android:layout_margin="16dp"
+            android:maxLines="2"
             android:text="Vancouver"
             android:textColor="?attr/colorOnBackground"
             android:textSize="30sp"
-            android:maxLines="2"
             app:layout_constraintEnd_toStartOf="@+id/weatherAnim"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
