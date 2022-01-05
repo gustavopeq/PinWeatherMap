@@ -1,15 +1,11 @@
 package gustavo.projects.pinweathermap.map.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,13 +15,10 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import gustavo.projects.pinweathermap.R
-import gustavo.projects.pinweathermap.database.AppDatabase
-import gustavo.projects.pinweathermap.database.BookmarkEntity
 import gustavo.projects.pinweathermap.databinding.BottomSheetDetailsBinding
 import gustavo.projects.pinweathermap.databinding.FragmentMapsBinding
 import gustavo.projects.pinweathermap.domain.model.LocationWeather
 import gustavo.projects.pinweathermap.map.viewmodel.MapViewModel
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MapsFragment : Fragment(),
@@ -44,8 +37,6 @@ class MapsFragment : Fragment(),
 
     private lateinit var mapBinding: FragmentMapsBinding
     private lateinit var bottomSheetBinding: BottomSheetDetailsBinding
-
-    private lateinit var appDatabase: AppDatabase
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -76,11 +67,6 @@ class MapsFragment : Fragment(),
         bottomSheetBinding = mapBinding.bottomSheet
         bottomSheet = bottomSheetBinding.root
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
-
-        appDatabase = Room.databaseBuilder(
-            requireContext(),
-            AppDatabase::class.java,
-            "pin_weathermap_database").build()
     }
 
     override fun onMapReady(p0: GoogleMap) {
@@ -185,17 +171,5 @@ class MapsFragment : Fragment(),
         }
 
         bottomSheetBinding.weatherAnim.playAnimation()
-
-        lifecycleScope.launch {
-            var newBookmarkEntity = BookmarkEntity(0, locationWeather.name)
-            appDatabase.bookmarkDao().insert(newBookmarkEntity)
-
-            var listOfLocations = appDatabase.bookmarkDao().getAllBookmarkEntities()
-
-            listOfLocations.forEach {
-                Log.d("print", it.name)
-            }
-        }
-
     }
 }
