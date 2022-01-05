@@ -101,7 +101,6 @@ class MapsFragment : Fragment(),
 
         mapBinding.bookmarkExplorerBtn.setOnClickListener {
             if(isExploring) {
-                Log.d("print", "OPA")
                 onShowBookmarks()
             }else {
                 onExploreMode()
@@ -132,7 +131,9 @@ class MapsFragment : Fragment(),
             googleMap.addMarker(markerOptions)!!.apply {
                 tag = locationWeather
                 snippet = "${locationWeather.temp}°C"
+                if(isExploring) {
                 showInfoWindow()
+                }
             }
         }
     }
