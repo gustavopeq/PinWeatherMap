@@ -14,5 +14,21 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideMapRepository(apiClient: ApiClient) = MapRepository(apiClient)
+    fun provideMapRepository(apiClient: ApiClient)
+    = MapRepository(apiClient)
+//
+//    @Singleton
+//    @Provides
+//    fun provideBookmarkDao(appDatabase: AppDatabase): BookmarkDao {
+//        return appDatabase.bookmarkDao()
+//    }
+//
+//    @Singleton
+//    @Provides
+//    fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase {
+//        return Room.databaseBuilder(
+//            appContext,
+//            AppDatabase::class.java,
+//            "appDatabase").build()
+//    }
 }
