@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottomSheetDetails"
     android:layout_width="match_parent"
-    android:layout_height="480dp"
+    android:layout_height="520dp"
     app:cardCornerRadius="16dp"
     app:cardBackgroundColor="@color/cardview_light_background"
     android:layout_marginHorizontal="16dp"
@@ -309,6 +310,30 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/addBookmarkBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Bookmark"
+            android:layout_marginTop="16dp"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@+id/windCardView"
+            app:layout_constraintStart_toStartOf="@+id/windCardView"
+            app:layout_constraintTop_toBottomOf="@+id/windCardView" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/removeBookmarkBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove Bookmark"
+            android:layout_marginTop="16dp"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/windCardView"
+            app:layout_constraintStart_toStartOf="@+id/windCardView"
+            app:layout_constraintTop_toBottomOf="@+id/windCardView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

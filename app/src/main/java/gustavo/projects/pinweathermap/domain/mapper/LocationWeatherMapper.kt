@@ -9,6 +9,7 @@ class LocationWeatherMapper {
     fun buildFrom(response: GetWeatherByCoordResponse): LocationWeather {
 
         return LocationWeather(
+                response.id,
                 response.name,
                 response.coord.lat,
                 response.coord.lon,

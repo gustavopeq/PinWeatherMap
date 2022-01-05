@@ -1,9 +1,11 @@
 package gustavo.projects.pinweathermap.map.ui
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -37,6 +39,8 @@ class MapsFragment : Fragment(),
 
     private lateinit var mapBinding: FragmentMapsBinding
     private lateinit var bottomSheetBinding: BottomSheetDetailsBinding
+
+    private var isExploring: Boolean = true
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -113,18 +117,36 @@ class MapsFragment : Fragment(),
 
     private fun onBottomSheetExpand(locationWeather: LocationWeather) {
         bottomSheetBinding.cityName.text = locationWeather.name
-
         bottomSheetBinding.temperature.text = "${locationWeather.temp}°C"
         bottomSheetBinding.feelsLikeTextView.text = "${locationWeather.feelsLike}°C"
 
         setWeatherLottieAnim(locationWeather)
 
         bottomSheetBinding.maxMinTextView.text = "${locationWeather.tempMax}°C / ${locationWeather.tempMin}°C"
-
         bottomSheetBinding.cloudsTextView.text = "${locationWeather.clouds}%"
         bottomSheetBinding.humidityTextView.text = "${locationWeather.humidity}%"
         bottomSheetBinding.pressureTextView.text = "${locationWeather.pressure} hPa"
         bottomSheetBinding.windTextView.text = "${locationWeather.windSpeed} m/s"
+
+        if(isExploring) {
+            bottomSheetBinding.addBookmarkBtn.visibility = View.VISIBLE
+            bottomSheetBinding.removeBookmarkBtn.visibility = View.GONE
+        }else {
+            bottomSheetBinding.removeBookmarkBtn.visibility = View.VISIBLE
+            bottomSheetBinding.addBookmarkBtn.visibility = View.GONE
+        }
+
+        bottomSheetBinding.addBookmarkBtn.setOnClickListener {
+            viewModel.addBookmark(locationWeather)
+            bottomSheetBinding.removeBookmarkBtn.visibility = View.VISIBLE
+            bottomSheetBinding.addBookmarkBtn.visibility = View.GONE
+        }
+
+        bottomSheetBinding.removeBookmarkBtn.setOnClickListener {
+            viewModel.removeBookmark(locationWeather)
+            bottomSheetBinding.addBookmarkBtn.visibility = View.VISIBLE
+            bottomSheetBinding.removeBookmarkBtn.visibility = View.GONE
+        }
 
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }

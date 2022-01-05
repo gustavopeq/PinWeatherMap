@@ -24,4 +24,16 @@ class MapViewModel @Inject constructor(
             _locationWeatherInfo.postValue(mapRepository.getWeatherByCoord(lat, lon))
         }
     }
+
+    fun addBookmark(locationWeather: LocationWeather) {
+        viewModelScope.launch {
+            mapRepository.addBookmarkToDatabase(locationWeather)
+        }
+    }
+
+    fun removeBookmark(locationWeather: LocationWeather) {
+        viewModelScope.launch {
+            mapRepository.removeBookmarkFromDatabase(locationWeather)
+        }
+    }
 }

@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "bookmark_entity")
 data class BookmarkEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    val name: String
+    @PrimaryKey val id: Int,
+    val latitude: Double,
+    val longitude: Double
 )

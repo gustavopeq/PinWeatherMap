@@ -1,6 +1,7 @@
 package gustavo.projects.pinweathermap.domain.model
 
 data class LocationWeather(
+    val id: Int,
     val name: String,
     val latitude: Double,
     val longitude: Double,
