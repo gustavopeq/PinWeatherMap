@@ -1,6 +1,7 @@
 package gustavo.projects.pinweathermap.map.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,19 +60,6 @@ class MapsFragment : Fragment(),
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        viewModel.locationWeatherInfo.observe(viewLifecycleOwner) { locationWeather ->
-            if(locationWeather != null) {
-                addMarker(locationWeather)
-            }
-        }
-
-        viewModel.bookmarksList.observe(viewLifecycleOwner) { locationWeatherList ->
-            if(!locationWeatherList.isNullOrEmpty()) {
-                locationWeatherList.forEach { locationWeather ->
-                    addMarker(locationWeather)
-                }
-            }
-        }
 
         bottomSheetBinding = mapBinding.bottomSheet
         bottomSheet = bottomSheetBinding.root
@@ -108,6 +96,7 @@ class MapsFragment : Fragment(),
     }
 
     override fun onMapReady(p0: GoogleMap) {
+        Log.d("print", "onMapReady")
         googleMap = p0
 
         googleMap.setOnMapClickListener(this)
@@ -117,6 +106,20 @@ class MapsFragment : Fragment(),
             if(it.tag is LocationWeather) {
                 onBottomSheetExpand(it.tag as LocationWeather)
                 mapBinding.bookmarkExplorerBtn.visibility = View.GONE
+            }
+        }
+
+        viewModel.locationWeatherInfo.observe(viewLifecycleOwner) { locationWeather ->
+            if(locationWeather != null) {
+                addMarker(locationWeather)
+            }
+        }
+
+        viewModel.bookmarksList.observe(viewLifecycleOwner) { locationWeatherList ->
+            if(!locationWeatherList.isNullOrEmpty()) {
+                locationWeatherList.forEach { locationWeather ->
+                    addMarker(locationWeather)
+                }
             }
         }
     }

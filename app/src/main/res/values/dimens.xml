@@ -2,4 +2,5 @@
 <resources>
     <dimen name="BottomSheetIconSize">48dp</dimen>
     <dimen name="DefaultTitleSize">16sp</dimen>
+    <dimen name="weatherInfoCardElevation">2dp</dimen>
 </resources>
