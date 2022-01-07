@@ -1,5 +1,6 @@
 package gustavo.projects.pinweathermap.map.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +21,12 @@ import gustavo.projects.pinweathermap.databinding.BottomSheetDetailsBinding
 import gustavo.projects.pinweathermap.databinding.FragmentMapsBinding
 import gustavo.projects.pinweathermap.domain.model.LocationWeather
 import gustavo.projects.pinweathermap.map.viewmodel.MapViewModel
+import android.content.res.Resources
+
+import com.google.android.gms.maps.model.MapStyleOptions
+
+
+
 
 @AndroidEntryPoint
 class MapsFragment : Fragment(),
@@ -108,6 +115,10 @@ class MapsFragment : Fragment(),
             }
         }
 
+
+        onSetGoogleMapsNightStyle()
+
+
         viewModel.locationWeatherInfo.observe(viewLifecycleOwner) { locationWeather ->
             if(locationWeather != null) {
                 addMarker(locationWeather)
@@ -119,6 +130,24 @@ class MapsFragment : Fragment(),
                 locationWeatherList.forEach { locationWeather ->
                     addMarker(locationWeather)
                 }
+            }
+        }
+    }
+
+    private fun onSetGoogleMapsNightStyle() {
+        val nightModeFlag =
+            requireContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        if (nightModeFlag == Configuration.UI_MODE_NIGHT_YES) {
+            try {
+                // Customise the styling of the base map using a JSON object defined
+                // in a raw resource file.
+                googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                        requireContext(), R.raw.google_map_night_style
+                    )
+                )
+            } catch (e: Resources.NotFoundException) {
+                Log.e("print", "Can't find style. Error: ", e)
             }
         }
     }

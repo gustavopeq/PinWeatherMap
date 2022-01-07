@@ -6,5 +6,6 @@
     <color name="primaryBlue">#00BBEE</color>
     <color name="secondaryBlue">#F1FAFF</color>
     <color name="mainGray">#4D4F4E</color>
+    <color name="secondaryGray">#838383</color>
 
 </resources>

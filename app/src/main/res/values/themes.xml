@@ -11,6 +11,7 @@
         <item name="colorSecondaryVariant">@color/secondaryBlue</item>
         <item name="colorOnSecondary">@color/mainGray</item>
         <item name="colorOnSurface">@color/secondaryBlue</item>
+        <item name="colorOnPrimarySurface">@color/mainGray</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
