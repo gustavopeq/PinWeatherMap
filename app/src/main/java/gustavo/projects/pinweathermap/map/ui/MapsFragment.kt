@@ -96,7 +96,6 @@ class MapsFragment : Fragment(),
     }
 
     override fun onMapReady(p0: GoogleMap) {
-        Log.d("print", "onMapReady")
         googleMap = p0
 
         googleMap.setOnMapClickListener(this)
@@ -255,8 +254,9 @@ class MapsFragment : Fragment(),
         googleMap.clear()
         mapBinding.mapTargetImageView.visibility = View.GONE
         mapBinding.bookmarkExplorerBtn.text = "Explore Mode"
-        isExploring = false
 
         viewModel.loadAllBookmarks()
+
+        isExploring = false
     }
 }
